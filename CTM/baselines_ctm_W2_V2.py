@@ -231,15 +231,15 @@ def main():
     global dataset_folder
 
     # SETTINGS:
-    dataset_folder = 'W2_dataset_V2/'  
+    dataset_folder = 'W2_Dataset/'  
     nr_topics = 25
     nr_of_words_per_topic = 10 # 10 default
-    nr_epochs = 20 #default 100
-    viz_freq = 4
+    nr_epochs = 20 
+    viz_freq = 5
     lang_model = 'paraphrase-multilingual-mpnet-base-v2'# fill mask 'bert-base-multilingual-uncased'  sent 'distiluse-base-multilingual-cased-v2'
     dropout = 0.2 # 0.2 default
     batch_size = 64 # 64 default
-    lr = 0.4 # 0.002 default
+    lr = 0.002 # 0.002 default
     momentum = 0.99 # 0.99 default
     log_file_name = f"{dataset_folder}baselines_ctm_nrTopic_{nr_topics}_{lang_model}_lr{lr}_batchSize{batch_size}.log"
     train_loc = f"{dataset_folder}train_texts.txt"
@@ -252,15 +252,9 @@ def main():
     os.environ['CUDA_VISIBLE_DEVICES'] = '0' 
     os.environ['TOKENIZERS_PARALLELISM'] = 'False'
 
-
-
-
-
-
-
     ctm_model, topics, topics_predictions_all, training_dataset, tp = train_ctm(nr_topics, nr_epochs, train_texts=train_loc, lang_model=lang_model, nr_of_words_per_topic=nr_of_words_per_topic,  dropout=dropout, batch_size=batch_size, lr=lr, momentum=momentum, viz_freq=viz_freq) # in paper: "paraphrase-multilingual-mpnet-base-v2" bert-base-multilingual-uncased
 
-    # visualization of the trained model:::
+    # visualization of the trained model
     lda_vis_data = ctm_model.get_ldavis_data_format(tp.vocab, training_dataset, n_samples=5)
     visualization_tm = vis.prepare(**lda_vis_data)
     vis.save_html(visualization_tm, f'{dataset_folder}CTM_topic_overview_{dataset_folder[:-1]}_n{nr_topics}_epochs{nr_epochs}.html')
