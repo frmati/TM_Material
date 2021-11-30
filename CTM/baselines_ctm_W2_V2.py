@@ -23,9 +23,6 @@ import matplotlib.pyplot as plt
 import random
 import torch
 
-def evaluation2():
-    ...
-
 def evaluation_zeroshot(doc_distribution_original_language, dataset_path, topics): #must be test
     """
     doc_distribution_original_language: document-topic distribution (Matrix in form of)
